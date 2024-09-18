@@ -54,7 +54,7 @@ const combine =
         Object.fromEntries(
             Object.entries(state).map(([k, state]) => [
                 k,
-                (reducers[k as keyof States] as any)(state, action),
+                reducers[k as keyof States](state, action),
             ])
         ) as States;
 
@@ -72,7 +72,7 @@ const createStore = <State, Action>(
     const getState = () => state;
 
     const initialDipatch = (action: Action) => {
-        state = reducer(initialState, action);
+        state = reducer(state, action);
     };
     const dispatch = middlewares.reduce(
         (disp, middleware) => middleware(disp, getState),
